@@ -55,17 +55,17 @@ const puppeteer = require('puppeteer');
         problemChildBox[0].click();
         problemChildBox[1].click();
     });
-     await page.waitFor(1000);
-     frames[1].evaluate(() => {
-         let problemChildBox = document.querySelectorAll('#problemShow .layui-colla-content .layui-form-checkbox')[0];
-         let problemChildBtn = problemChildBox.children[1];
-         problemChildBtn.click();
-         let problemChildBox2 = document.querySelectorAll('#problemShow .layui-colla-content .layui-form-checkbox')[1];
-         let problemChildBtn2 = problemChildBox2.children[1];
-         problemChildBtn2.click();
-     });
-     await page.waitFor(1000);
-     await page.type('#login-username', '18620776758');
+    await page.waitFor(1000);
+    frames[1].evaluate(() => {
+        let problemChildBox = document.querySelectorAll('#problemShow .layui-colla-content .layui-form-checkbox')[0];
+        let problemChildBtn = problemChildBox.children[1];
+        problemChildBtn.click();
+        let problemChildBox2 = document.querySelectorAll('#problemShow .layui-colla-content .layui-form-checkbox')[1];
+        let problemChildBtn2 = problemChildBox2.children[1];
+        problemChildBtn2.click();
+    });
+    await page.waitFor(1000);
+    await page.type('#login-username', '18620776758');
     await page.waitFor(100000);
     await browser.close();
 })();

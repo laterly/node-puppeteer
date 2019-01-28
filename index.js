@@ -1,5 +1,4 @@
 const puppeteer = require('puppeteer');
-const readline = require('readline');
 (async () => {
     const browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'], //Failed to launch chrome!
@@ -9,8 +8,8 @@ const readline = require('readline');
     const page = await browser.newPage();
     await page.goto('https://devstore.01hour.com/login.html');
     await page.setViewport({
-        width: 1920,
-        height: 1080
+        width: 1200,
+        height: 780
     });
     await page.type('#login-username', '18620776758');
     await page.type('#login-password', '776758');
@@ -31,20 +30,42 @@ const readline = require('readline');
     frames[1].evaluate(() => {
         let repairBtn = document.querySelectorAll('.pull-left')[1];
         repairBtn.click();
+    });
+    await page.waitFor(1000);
+    frames[1].evaluate(() => {
         let btnBox = document.querySelectorAll('.add-popup-btn-group');
-        let brandBtn = btnBox[0].children[1];
+        let brandBtn = btnBox[0].children[3];
         brandBtn.click();
+    });
+    await page.waitFor(1000);
+    frames[1].evaluate(() => {
+        let btnBox = document.querySelectorAll('.add-popup-btn-group');
         let modelBtn = btnBox[1].children[1];
         modelBtn.click();
+    });
+    await page.waitFor(1000);
+    frames[1].evaluate(() => {
+        let btnBox = document.querySelectorAll('.add-popup-btn-group');
         let colorBtn = btnBox[2].children[1];
         colorBtn.click();
-        let problemBox = document.querySelector('#problemShow');
-        let problemChildBox=problemBox.children;
-        problemChildBox[0].click();
-        let problemChildBtn=problemChildBox[0].children[1];
-        problemChildBtn.click();
     });
-
+    await page.waitFor(1000);
+    frames[1].evaluate(() => {
+        let problemChildBox = document.querySelectorAll('#problemShow button');
+        problemChildBox[0].click();
+        problemChildBox[1].click();
+    });
+     await page.waitFor(1000);
+     frames[1].evaluate(() => {
+         let problemChildBox = document.querySelectorAll('#problemShow .layui-colla-content .layui-form-checkbox')[0];
+         let problemChildBtn = problemChildBox.children[1];
+         problemChildBtn.click();
+         let problemChildBox2 = document.querySelectorAll('#problemShow .layui-colla-content .layui-form-checkbox')[1];
+         let problemChildBtn2 = problemChildBox2.children[1];
+         problemChildBtn2.click();
+     });
+     await page.waitFor(1000);
+     await page.type('#login-username', '18620776758');
     await page.waitFor(100000);
     await browser.close();
 })();

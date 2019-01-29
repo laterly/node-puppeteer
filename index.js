@@ -3,14 +3,18 @@ const puppeteer = require('puppeteer');
     const browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'], //Failed to launch chrome!
         headless: false, //要看演示可以使用false
+        defaultViewport:{
+            width:1920,
+            height:950
+        }
 
     });
     const page = await browser.newPage();
     await page.goto('https://devstore.01hour.com/login.html');
-    await page.setViewport({
-        width: 1200,
-        height: 780
-    });
+    // await page.setViewport({
+    //     width: 1200,
+    //     height: 780
+    // });
     await page.type('#login-username', '18620776758');
     await page.type('#login-password', '776758');
     await page.click('#login-btn');
@@ -57,14 +61,27 @@ const puppeteer = require('puppeteer');
     });
     await page.waitFor(1000);
     frames[1].evaluate(() => {
-        let problemChildBox = document.querySelectorAll('#problemShow .layui-colla-content .layui-form-checkbox')[0];
-        let problemChildBtn = problemChildBox.children[1];
-        problemChildBtn.click();
-        let problemChildBox2 = document.querySelectorAll('#problemShow .layui-colla-content .layui-form-checkbox')[1];
-        let problemChildBtn2 = problemChildBox2.children[1];
-        problemChildBtn2.click();
+        let problemChildBox = document.querySelectorAll("#problemShow .layui-colla-item");
+        problemChildBox[0].children[1].children[0].children[0].children[1].click();
+        problemChildBox[1].children[1].children[0].children[1].children[1].click();
     });
     await page.waitFor(1000);
+    frames[1].evaluate(() => {
+        let nameInput = document.querySelectorAll(".add-popup-form-row")[1].children[0].children[0].children[1].children[0];
+        nameInput.value= '测试下单';
+        layui.form.render();
+    });
+    await page.waitFor(1000);
+    frames[1].evaluate(() => {
+        let phoneInput = document.querySelectorAll(".add-popup-form-row")[1].children[2].children[0].children[1].children[0];
+        phoneInput.value = "13609724369";
+        layui.form.render();
+    });
+    await page.waitFor(1000);
+    frames[1].evaluate(() => {
+        let repairOrderBtn = document.querySelectorAll(".add-popup-submit button")[1];
+        repairOrderBtn.click();
+    });
     await page.type('#login-username', '18620776758');
     await page.waitFor(100000);
     await browser.close();

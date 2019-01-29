@@ -10,25 +10,25 @@ const puppeteer = require('puppeteer');
 
     });
     const page = await browser.newPage();
-    await page.goto('https://devstore.01hour.com/login.html');
+    await page.goto("http://127.0.0.1:8888/");
     // await page.setViewport({
     //     width: 1200,
     //     height: 780
     // });
-    await page.type('#login-username', '18620776758');
-    await page.type('#login-password', '776758');
+    await page.type('#login-username', '12345678900');
+    await page.type('#login-password', '123456');
     await page.click('#login-btn');
-    await page.waitFor(1000);
-    await page.click('.layui-form-select');
-    await page.evaluate(() => {
-        let layuiOption = document.querySelector('.layui-anim').children;
-        for (let i = 0; i < layuiOption.length; i++) {
-            if (layuiOption[i].getAttribute('lay-value') == 1)
-                layuiOption[i].click();
-        }
-        layui.form.render();
-    });
-    await page.click('#store-login');
+    // await page.waitFor(1000);
+    // await page.click('.layui-form-select');
+    // await page.evaluate(() => {
+    //     let layuiOption = document.querySelector('.layui-anim').children;
+    //     for (let i = 0; i < layuiOption.length; i++) {
+    //         if (layuiOption[i].getAttribute('lay-value') == 1)
+    //             layuiOption[i].click();
+    //     }
+    //     layui.form.render();
+    // });
+    // await page.click('#store-login');
     await page.waitFor(10000);
     const frames = await page.frames(); //得到所有的frame框
     frames[1].evaluate(() => {
@@ -65,24 +65,72 @@ const puppeteer = require('puppeteer');
         problemChildBox[0].children[1].children[0].children[0].children[1].click();
         problemChildBox[1].children[1].children[0].children[1].children[1].click();
     });
+    // await page.waitFor(1000);
+    // frames[1].evaluate(() => {
+    //     let nameInput = document.querySelectorAll(".add-popup-form-row")[1].children[0].children[0].children[1].children[0];
+    //     nameInput.focus();
+    //     nameInput.value= '测试下单';
+    //     layui.form.render();
+    // });
+    // await page.waitFor(1000);
+    // frames[1].evaluate(() => {
+    //     let phoneInput = document.querySelectorAll(".add-popup-form-row")[1].children[2].children[0].children[1].children[0];
+    //     phoneInput.focus()
+    //     phoneInput.value = "13609724369";
+    //     layui.form.render();
+    // });
     await page.waitFor(1000);
     frames[1].evaluate(() => {
-        let nameInput = document.querySelectorAll(".add-popup-form-row")[1].children[0].children[0].children[1].children[0];
-        nameInput.value= '测试下单';
-        layui.form.render();
+        let layuiOption = document.querySelectorAll(".add-popup-form-row")[0].children[0].children[0].children[1].children[1].children[1].children;
+      for (let i = 0; i < layuiOption.length; i++) {
+        if (layuiOption[i].getAttribute("lay-value") == 1) 
+        layuiOption[i].click();
+      }
+      layui.form.render();
     });
-    await page.waitFor(1000);
-    frames[1].evaluate(() => {
-        let phoneInput = document.querySelectorAll(".add-popup-form-row")[1].children[2].children[0].children[1].children[0];
-        phoneInput.value = "13609724369";
-        layui.form.render();
-    });
-    await page.waitFor(1000);
     frames[1].evaluate(() => {
         let repairOrderBtn = document.querySelectorAll(".add-popup-submit button")[1];
         repairOrderBtn.click();
     });
-    await page.type('#login-username', '18620776758');
+    //下单成功
+    await page.waitFor(2000);
+    //选择师傅
+    frames[1].evaluate(() => {
+        let layuiOption = document.querySelector(".work-right-basic").children[6].children[0].children[0].children[0].children[1].children[0].children[1].children[1].children;
+        for (let i = 0; i < layuiOption.length; i++) {
+            if (Number(layuiOption[i].getAttribute("lay-value")) == 25) 
+            layuiOption[i].click();
+        }
+        layui.form.render();
+    });
+    frames[1].focus(".text-blockinput > input");
+    frames[1].type("11111"); 
+    await page.waitFor(2000);
+    //点击保存
+    frames[1].evaluate(() => {
+        let btn = document.querySelectorAll(".oh-work-btn")[0];
+        btn.click();
+    });
+    await page.waitFor(2000);
+    //点击开始维修
+    frames[1].evaluate(() => {
+        let btn = document.querySelectorAll(".oh-work-btn")[1];
+        btn.click();
+    });
+    await page.waitFor(2000);
+    //点击完成维修
+    frames[1].evaluate(() => {
+        let btn = document.querySelectorAll(".oh-work-btn")[1];
+        btn.click();
+    });
+    //不需要配件
+    frames[1].evaluate(() => {
+        let btn = document.querySelector('.layui-layer-btn0')
+        btn.click();
+    });
+    await page.waitFor(2000);
+    //输入imei号码
+    // frames[1].$(".text-blockinput input"); 
     await page.waitFor(100000);
     await browser.close();
 })();

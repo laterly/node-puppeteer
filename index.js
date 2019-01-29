@@ -10,13 +10,13 @@ const puppeteer = require('puppeteer');
 
     });
     const page = await browser.newPage();
-    await page.goto('https://devstore.01hour.com/login.html');
+    await page.goto('http://127.0.0.1:8888');
     // await page.setViewport({
     //     width: 1200,
     //     height: 780
     // });
-    await page.type('#login-username', '18620776758');
-    await page.type('#login-password', '776758');
+    await page.type('#login-username', '12345678900');
+    await page.type('#login-password', '123456');
     await page.click('#login-btn');
     await page.waitFor(1000);
     await page.click('.layui-form-select');

@@ -10,25 +10,25 @@ const puppeteer = require('puppeteer');
 
     });
     const page = await browser.newPage();
-    await page.goto("http://127.0.0.1:8888/");
+    await page.goto('https://devstore.01hour.com/login.html');
     // await page.setViewport({
     //     width: 1200,
     //     height: 780
     // });
-    await page.type('#login-username', '12345678900');
-    await page.type('#login-password', '123456');
+    await page.type('#login-username', '18620776758');
+    await page.type('#login-password', '776758');
     await page.click('#login-btn');
-    // await page.waitFor(1000);
-    // await page.click('.layui-form-select');
-    // await page.evaluate(() => {
-    //     let layuiOption = document.querySelector('.layui-anim').children;
-    //     for (let i = 0; i < layuiOption.length; i++) {
-    //         if (layuiOption[i].getAttribute('lay-value') == 1)
-    //             layuiOption[i].click();
-    //     }
-    //     layui.form.render();
-    // });
-    // await page.click('#store-login');
+    await page.waitFor(1000);
+    await page.click('.layui-form-select');
+    await page.evaluate(() => {
+        let layuiOption = document.querySelector('.layui-anim').children;
+        for (let i = 0; i < layuiOption.length; i++) {
+            if (layuiOption[i].getAttribute('lay-value') == 1)
+                layuiOption[i].click();
+        }
+        layui.form.render();
+    });
+    await page.click('#store-login');
     await page.waitFor(10000);
     const frames = await page.frames(); //得到所有的frame框
     frames[1].evaluate(() => {
@@ -93,7 +93,7 @@ const puppeteer = require('puppeteer');
         repairOrderBtn.click();
     });
     //下单成功
-    await page.waitFor(2000);
+    await page.waitFor(2000000);
     //选择师傅
     frames[1].evaluate(() => {
         let layuiOption = document.querySelector(".work-right-basic").children[6].children[0].children[0].children[0].children[1].children[0].children[1].children[1].children;
